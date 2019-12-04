@@ -1,4 +1,4 @@
-#CONE
+# CONE
 
 Replaces your head with a cone in a webcam live feed.
 
