@@ -7,7 +7,7 @@ faceCascade = cv2.CascadeClassifier(cascPath)
 video_capture = cv2.VideoCapture(0)
 video_capture.set(3, 1280)
 
-cone = cv2.imread("cone.png", -1)
+cone = cv2.imread("cone.png", cv2.IMREAD_COLOR)
 
 while True:
     # Capture frame-by-frame
@@ -26,8 +26,10 @@ while True:
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
         print("Face at x{} y{} w{} h{}".format(x, y, w, h))
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 2)
-        cv2.putText(frame, "CONE", (x, int(y+h/2)), cv2.FONT_HERSHEY_DUPLEX, (h/80), (0, 100, 250), 2)  # Blue, green, red
+        #cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 2)
+        cv2.putText(frame, "CONE", (x, y), cv2.FONT_HERSHEY_DUPLEX, (h/80), (0, 100, 250), 2)  # Blue, green, red
+        cone_small = cv2.resize(cone, (w, h))
+        frame[y:y+h, x:x+h] = cone_small[0:w, 0:h]
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
