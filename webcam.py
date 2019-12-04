@@ -5,20 +5,21 @@ cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
 video_capture = cv2.VideoCapture(0)
-video_capture.set(3, 1280)
+video_capture.set(3, 3840)
 
 cone = cv2.imread("cone.png", cv2.IMREAD_COLOR)
 
 while True:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
+    frame = cv2.flip(frame, 1)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     faces = faceCascade.detectMultiScale(
         gray,
         scaleFactor=1.1,
-        minNeighbors=5,
+        minNeighbors=3,
         minSize=(30, 30),
         #flags=cv2.cv.CV_HAAR_SCALE_IMAGE
     )
