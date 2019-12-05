@@ -40,5 +40,5 @@ while True:
         break
 
 # When everything is done, release the capture
-video_capture.release()
+video_capture.release()8
 cv2.destroyAllWindows()
