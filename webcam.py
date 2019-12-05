@@ -28,9 +28,10 @@ while True:
     for (x, y, w, h) in faces:
         print("Face at x{} y{} w{} h{}".format(x, y, w, h))
         #cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 2)
-        cv2.putText(frame, "CONE", (x, y), cv2.FONT_HERSHEY_DUPLEX, (h/80), (0, 100, 250), 2)  # Blue, green, red
         cone_small = cv2.resize(cone, (w, h))
         frame[y:y+h, x:x+h] = cone_small[0:w, 0:h]
+        cv2.putText(frame, "CONE", (x, y), cv2.FONT_HERSHEY_DUPLEX, (h / 85), (0, 100, 250), 2)  # Blue, green, red
+        cv2.putText(frame, "(x{}, y{}, h{})".format(x, y, h), (x, y + h - 10), cv2.FONT_HERSHEY_DUPLEX, (h / 320), (255, 255, 255), 2)  # Blue, green, red
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
