@@ -28,10 +28,32 @@ while True:
     for (x, y, w, h) in faces:
         print("Face at x{} y{} w{} h{}".format(x, y, w, h))
         #cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 2)
-        cone_small = cv2.resize(cone, (w, h))
-        frame[y:y+h, x:x+h] = cone_small[0:w, 0:h]
-        cv2.putText(frame, "CONE", (x, y), cv2.FONT_HERSHEY_DUPLEX, (h / 85), (0, 100, 250), 2)  # Blue, green, red
-        cv2.putText(frame, "(x{}, y{}, h{})".format(x, y, h), (x, y + h - 10), cv2.FONT_HERSHEY_DUPLEX, (h / 320), (255, 255, 255), 2)  # Blue, green, red
+
+        mode = 1
+
+        if mode == 0:
+
+            # Add the additional faces
+            try:  # Avoid going out of screen bounds
+                frame[y:y+h, x-h:x] = frame[y:y+h, x:x+h]
+            except:
+                cv2.putText(frame, "OUT OF BOUNDS LEFT!".format(x, y, h), (x, y-20), cv2.FONT_HERSHEY_DUPLEX, (h / 370),
+                            (0, 0, 255), 2)  # Blue, green, red
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+
+            try:  # Avoid going out of screen bounds
+                frame[y:y+h, x+h:x+2*h] = frame[y:y+h, x:x+h]
+            except:
+                cv2.putText(frame, "OUT OF BOUNDS RIGHT!".format(x, y, h), (x, y+h+30), cv2.FONT_HERSHEY_DUPLEX, (h / 370),
+                            (0, 0, 255), 2)  # Blue, green, red
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+
+        elif mode == 1:
+
+            cone_small = cv2.resize(cone, (w, h))
+            frame[y:y+h, x:x+h] = cone_small[0:w, 0:h]  # Put the cone image over the faces
+            cv2.putText(frame, "CONE", (x, y), cv2.FONT_HERSHEY_DUPLEX, (h / 85), (0, 100, 250), 2)  # Blue, green, red
+            cv2.putText(frame, "(x{}, y{}, h{})".format(x, y, h), (x, y + h - 10), cv2.FONT_HERSHEY_DUPLEX, (h / 320), (255, 255, 255), 2)  # Blue, green, red
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
@@ -40,5 +62,5 @@ while True:
         break
 
 # When everything is done, release the capture
-video_capture.release()8
+video_capture.release()
 cv2.destroyAllWindows()
